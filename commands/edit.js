@@ -1,4 +1,4 @@
-module.exports.run = async (client, message) => {
+  module.exports.run = async (client, message) => {
   const Discord = require("discord.js");
   const ms = require("ms");
   let time = "";
@@ -7,20 +7,20 @@ module.exports.run = async (client, message) => {
   let giveawayx = "";
   let embed = new Discord.MessageEmbed()
     .setTitle("Edit A Giveaway!")
-    .setColor('#2F3136')
+    .setColor('#03ffa0')
     .setFooter(client.user.username, client.user.displayAvatarURL())
     .setTimestamp();
   const msg = await message.reply({
     embeds:
       [embed.setDescription(
-        "Which Giveaway Would You Like To Edit?\nProvide The Giveaway Message's ID\n **Must Reply within 30 seconds!**"
+        "Provide the new Giveaway's Message, within 30 Seconds.**"
       )]
   }
   );
   let xembed = new Discord.MessageEmbed()
-    .setTitle("Oops! Looks Like We Met A Timeout! 🕖")
-    .setColor("#FF0000")
-    .setDescription('💥 Snap our luck!\nYou took too much time to decide!\nUse ``edit`` again to edit a giveaway!\nTry to respond within **30 seconds** this time!')
+    .setTitle("Timeout ended. 🕖")
+    .setColor("#03ffa0")
+    .setDescription('💥 you took too much time editing, please reuse the edit command.')
     .setFooter(client.user.username, client.user.displayAvatarURL())
     .setTimestamp();
 
@@ -39,7 +39,7 @@ module.exports.run = async (client, message) => {
       return msg.edit({
         embeds: [
           embed.setDescription(
-            "Uh-Oh! Looks like you provided an Invalid Message ID!\n**Try Again?**\n Example: ``677813783523098627``"
+            "looks like you didn't provide a valid message id!"
           )]
       }
       );
@@ -48,7 +48,7 @@ module.exports.run = async (client, message) => {
         msg.edit({
           embeds: [
             embed.setDescription(
-              `Alright! Next, What Would be our new time for the giveaway to be ended \n** Must Reply within 30 seconds!**`
+              `Provide a new Winners count, within 30 Seconds.**`
             )]
         }
         )
@@ -66,7 +66,7 @@ module.exports.run = async (client, message) => {
         return msg.edit({
           embeds: [
             embed.setDescription(
-              "Aw Snap! Looks Like You Provided Me With An Invalid Duration\n**Try Again?**\n Example: ``-10 minutes``,``-10m``,``-10``\n **Note: - (minus) Inidicates you want to reduce the time!**"
+              "Please provide a valid duration!**"
             )]
         }
         );
@@ -76,7 +76,7 @@ module.exports.run = async (client, message) => {
           msg.edit({
             embeds: [
               embed.setDescription(
-                `Alright! Next, How may winners should I roll for the giveaway now?\n**Must Reply within 30 seconds.**`
+                `How many winners will be in the giveaway**`
               )]
           }
           )
@@ -95,7 +95,7 @@ module.exports.run = async (client, message) => {
           return msg.edit({
             embeds: [
               embed.setDescription(
-                "Boi! Winners Must Be A Number or greater than equal to one!\n**Try Again?**\n Example ``1``,``10``, etcetra."
+                "Winners must be a number between `1-10`"
               )]
           }
           );
@@ -105,7 +105,7 @@ module.exports.run = async (client, message) => {
             msg.edit({
               embeds: [
                 embed.setDescription(
-                  `Alright, Generous Human! Next, What should be the new prize for the giveaway?\n**Must Reply within 30 seconds!**`
+                  `Provide the new Prize, within 30 Seconds**`
                 )]
             }
             )

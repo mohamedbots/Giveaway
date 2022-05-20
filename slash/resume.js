@@ -14,9 +14,9 @@ module.exports = {
     run: async (client, interaction) => {
 
         // If the member doesn't have enough permissions
-        if (!interaction.member.permissions.has('MANAGE_MESSAGES') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
+        if (!interaction.member.permissions.has('MANAGE_CHANNELS') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
             return interaction.reply({
-                content: ':x: You need to have the manage messages permissions to pause giveaways.',
+                content: "you don't have permissions",
                 ephemeral: true
             });
         }
@@ -33,14 +33,14 @@ module.exports = {
         // If no giveaway was found
         if (!giveaway) {
             return interaction.reply({
-                content: 'Unable to find a giveaway for `' + query + '`.',
+                content: 'unable to find a giveaway for `' + query + '`.',
                 ephemeral: true
             });
         }
 
         if (!giveaway.pauseOptions.isPaused) {
             return interaction.reply({
-                content: `**[This giveaway](https://discord.com/channels/${giveaway.guildId}/${giveaway.channelId}/${giveaway.messageId})**  is not paused!`,
+                content: `**Giveaway isn't Paused**`,
                 ephemeral: true
             });
         }
@@ -50,7 +50,7 @@ module.exports = {
             // Success message
             .then(() => {
                 // Success message
-                interaction.reply(`**[This giveaway](https://discord.com/channels/${giveaway.guildId}/${giveaway.channelId}/${giveaway.messageId})** has been successfully resumed!`);
+                interaction.reply(`**Giveaway resumed!**`);
             })
             .catch((e) => {
                 interaction.reply({

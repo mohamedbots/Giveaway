@@ -1,7 +1,26 @@
 const Discord = require("discord.js");
-const client = new Discord.Client({ intents: 7753 });
+const client = new Discord.Client({
+  intents: [
+    Discord.Intents.FLAGS.GUILDS,
+    Discord.Intents.FLAGS.GUILD_MEMBERS,
+    Discord.Intents.FLAGS.GUILD_BANS,
+    Discord.Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
+    Discord.Intents.FLAGS.GUILD_INTEGRATIONS,
+    Discord.Intents.FLAGS.GUILD_WEBHOOKS,
+    Discord.Intents.FLAGS.GUILD_INVITES,
+    Discord.Intents.FLAGS.GUILD_VOICE_STATES,
+    Discord.Intents.FLAGS.GUILD_PRESENCES,
+    Discord.Intents.FLAGS.GUILD_MESSAGES,
+    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Discord.Intents.FLAGS.GUILD_MESSAGE_TYPING,
+    Discord.Intents.FLAGS.DIRECT_MESSAGES,
+    Discord.Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+    Discord.Intents.FLAGS.DIRECT_MESSAGE_TYPING
+  ]
+});
 const fs = require("fs");
 const config = require("./config.json");
+const disbut = require('discord.js')
 client.config = config;
 
 // Initialise discord giveaways
@@ -10,11 +29,11 @@ client.giveawaysManager = new GiveawaysManager(client, {
   storage: "./storage/giveaways.json",
   default: {
     botsCanWin: false,
-    embedColor: "#2F3136",
+    embedColor: "#03ffa0",
     reaction: "🎉",
     lastChance: {
       enabled: true,
-      content: `🛑 **Last chance to enter** 🛑`,
+      content: `**🛑 Last chance to enter**`,
       threshold: 5000,
       embedColor: '#FF0000'
     }
@@ -38,16 +57,6 @@ fs.readdir("./events/discord", (_err, files) => {
 
 /* Load all events (giveaways based) */
 
-
-fs.readdir("./events/giveaways", (_err, files) => {
-  files.forEach((file) => {
-    if (!file.endsWith(".js")) return;
-    const event = require(`./events/giveaways/${file}`);
-    let eventName = file.split(".")[0];
-    console.log(`[Event]   🎉 Loaded: ${eventName}`);
-    client.giveawaysManager.on(eventName, (...file) => event.execute(...file, client)), delete require.cache[require.resolve(`./events/giveaways/${file}`)];
-  })
-})
 
 // Let commands be a new collection ( message commands )
 client.commands = new Discord.Collection();

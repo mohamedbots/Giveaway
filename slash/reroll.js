@@ -1,6 +1,6 @@
 module.exports = {
     name: "reroll",
-    description: '🎉 Reroll a giveaway',
+    description: '🎉 Rerolls a giveaway',
 
     options: [
         {
@@ -14,9 +14,9 @@ module.exports = {
     run: async (client, interaction) => {
 
         // If the member doesn't have enough permissions
-        if (!interaction.member.permissions.has('MANAGE_MESSAGES') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
+        if (!interaction.member.permissions.has('MANAGE_CHANNELS') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
             return interaction.reply({
-                content: ':x: You need to have the manage messages permission to reroll giveaways.',
+                content: "you don't have permissions",
                 ephemeral: true
             });
         }
@@ -33,14 +33,14 @@ module.exports = {
         // If no giveaway was found
         if (!giveaway) {
             return interaction.reply({
-                content: 'Unable to find a giveaway for `' + query + '`.',
+                content: 'unable to find a giveaway for `' + query + '`.',
                 ephemeral: true
             });
         }
 
         if (!giveaway.ended) {
             return interaction.reply({
-                content: `[This Giveaway](https://discord.com/channels/${giveaway.guildId}/${giveaway.channelId}/${giveaway.messageId}) has not been ended yet`,
+                content: `**Giveaway isn't ended yet!**`,
                 ephemeral: true
             });
         }
@@ -49,7 +49,7 @@ module.exports = {
         client.giveawaysManager.reroll(giveaway.messageId)
             .then(() => {
                 // Success message
-                interaction.reply(`Rerolled **[this giveaway](https://discord.com/channels/${giveaway.guildId}/${giveaway.channelId}/${giveaway.messageId})!**`);
+                interaction.reply(`**Giveaway Rerolled!**`);
             })
             .catch((e) => {
                 interaction.reply({

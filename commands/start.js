@@ -3,26 +3,20 @@ const messages = require("../utils/message");
 module.exports.run = async (client, message, args) => {
   // If the member doesn't have enough permissions
   if (
-    !message.member.permissions.has("MANAGE_MESSAGES") &&
+    !message.member.permissions.has("MANAGE_CHANNELS") &&
     !message.member.roles.cache.some(r => r.name === "Giveaways")
   ) {
     return message.reply(
-      ":x: You need to have the manage messages permissions to start giveaways."
+      "you don't have permissions"
     );
   }
 
-  // Giveaway channel
-  let giveawayChannel = message.mentions.channels.first();
-  // If no channel is mentionned
-  if (!giveawayChannel) {
-    return message.reply(":x: You have to mention a valid channel!");
-  }
 
   // Giveaway duration
   let giveawayDuration = args[1];
   // If the duration isn't valid
   if (!giveawayDuration || isNaN(ms(giveawayDuration))) {
-    return message.reply(":x: You have to specify a valid duration!");
+    return message.reply("please specify a duration!");
   }
 
   // Number of winners
@@ -30,7 +24,7 @@ module.exports.run = async (client, message, args) => {
   // If the specified number of winners is not a number
   if (isNaN(giveawayNumberWinners) || parseInt(giveawayNumberWinners) <= 0) {
     return message.reply(
-      ":x: You have to specify a valid number of winners!"
+      "please specify a number of winners!"
     );
   }
 
@@ -38,10 +32,10 @@ module.exports.run = async (client, message, args) => {
   let giveawayPrize = args.slice(3).join(" ");
   // If no prize is specified
   if (!giveawayPrize) {
-    return message.reply(":x: You have to specify a valid prize!");
+    return message.reply("please specify a prize!");
   }
   // Start the giveaway
-  await client.giveawaysManager.start(giveawayChannel, {
+  await client.giveawaysManager.start(message.channel, {
     // The giveaway duration
     duration: ms(giveawayDuration),
     // The giveaway prize
@@ -53,5 +47,5 @@ module.exports.run = async (client, message, args) => {
     // Messages
     messages
   });
-  message.reply(`Giveaway started in ${giveawayChannel}!`);
+  message.reply(`Giveaway started!`);
 }

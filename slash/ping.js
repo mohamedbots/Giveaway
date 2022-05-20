@@ -5,7 +5,7 @@ module.exports = {
     description: '🏓Check my ping!',
     run: async (client, interaction) => {
       let pembed = new MessageEmbed()
-		  .setColor('#2F3136')	
+		  .setColor('#03ffa0')	
 			.setTitle('Client Ping')
 			.addField('**Latency**', `\`${Date.now() - interaction.createdTimestamp}ms\``)
 			.addField('**API Latency**', `\`${Math.round(client.ws.ping)}ms\``)

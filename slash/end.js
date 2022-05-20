@@ -1,11 +1,11 @@
 module.exports = {
     name: "end",
-    description: '🎉 End an already running giveaway',
+    description: '🎉 Ends a Giveaway',
 
     options: [
         {
             name: 'giveaway',
-            description: 'The giveaway to end (message ID or giveaway prize)',
+            description: 'The giveaway to end! (message ID or giveaway prize)',
             type: 'STRING',
             required: true
         }
@@ -14,9 +14,9 @@ module.exports = {
     run: async (client, interaction) => {
 
         // If the member doesn't have enough permissions
-        if (!interaction.member.permissions.has('MANAGE_MESSAGES') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
+        if (!interaction.member.permissions.has('MANAGE_CHANNELS') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
             return interaction.reply({
-                content: ':x: You need to have the manage messages permissions to end giveaways.',
+                content: "you don't have permissions",
                 ephemeral: true
             });
         }
@@ -33,14 +33,14 @@ module.exports = {
         // If no giveaway was found with the corresponding input
         if (!giveaway) {
             return interaction.reply({
-                content: 'Unable to find a giveaway for `' + query + '`.',
+                content: 'unable to find giveaway for `' + query + '`.',
                 ephemeral: true
             });
         }
 
         if (giveaway.ended) {
             return interaction.reply({
-                content: 'This giveaway has already ended!',
+                content: 'Giveawy has Already ended!',
                 ephemeral: true
             });
         }
@@ -50,7 +50,7 @@ module.exports = {
             // Success message
             .then(() => {
                 // Success message
-                interaction.reply(`**[This Giveaway](https://discord.com/channels/${giveaway.guildId}/${giveaway.channelId}/${giveaway.messageId})** Has Now Ended!`);
+                interaction.reply(`**Giveaway has ended!**`);
             })
             .catch((e) => {
                 interaction.reply({

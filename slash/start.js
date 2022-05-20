@@ -3,54 +3,54 @@ const messages = require("../utils/message");
 const ms = require("ms")
 module.exports = {
   name: 'start',
-  description: '🎉 Start a giveaway',
+  description: '🎉 Starts a giveaway',
 
   options: [
     {
       name: 'duration',
-      description: 'How long the giveaway should last for. Example values: 1m, 1h, 1d',
+      description: 'Provide the duration for the giveaway!',
       type: 'STRING',
       required: true
     },
     {
       name: 'winners',
-      description: 'How many winners the giveaway should have',
+      description: 'Provide the winners for the giveaway!',
       type: 'INTEGER',
       required: true
     },
     {
       name: 'prize',
-      description: 'What the prize of the giveaway should be',
+      description: 'Provide the prize for the giveaway!',
       type: 'STRING',
       required: true
     },
     {
       name: 'channel',
-      description: 'The channel to start the giveaway in',
+      description: 'Provide the channel to start the giveaway at!',
       type: 'CHANNEL',
       required: true
     },
     {
       name: 'bonusrole',
-      description: 'Role which would recieve bonus entries',
+      description: 'Provide a role that will recieve a bonus!',
       type: 'ROLE',
       required: false
     },
     {
       name: 'bonusamount',
-      description: 'The amount of bonus entries the role will recieve',
+      description: 'Provide the amount of the bonus!',
       type: 'INTEGER',
       required: false
     },
     {
       name: 'invite',
-      description: 'Invite of the server you want to add as giveaway joining requirement',
+      description: 'Provide the requirement server to enter the giveaway!',
       type: 'STRING',
       required: false
     },
     {
       name: 'role',
-      description: 'Role you want to add as giveaway joining requirement',
+      description: 'Provide the requirement role to enter the giveaway!',
       type: 'ROLE',
       required: false
     },
@@ -59,9 +59,9 @@ module.exports = {
   run: async (client, interaction) => {
 
     // If the member doesn't have enough permissions
-    if (!interaction.member.permissions.has('MANAGE_MESSAGES') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
+    if (!interaction.member.permissions.has('MANAGE_CHANNELS') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
       return interaction.reply({
-        content: ':x: You need to have the manage messages permissions to start giveaways.',
+        content: "you don't have permissions",
         ephemeral: true
       });
     }
@@ -73,19 +73,19 @@ module.exports = {
 
     if (!giveawayChannel.isText()) {
       return interaction.reply({
-        content: ':x: Please select a text channel!',
+        content: 'Please select a channel!',
         ephemeral: true
       });
     }
    if(isNaN(ms(giveawayDuration))) {
     return interaction.reply({
-      content: ':x: Please select a valid duration!',
+      content: 'Please select a valid duration!',
       ephemeral: true
     });
   }
     if (giveawayWinnerCount < 1) {
       return interaction.reply({
-        content: ':x: Please select a valid winner count! greater or equal to one.',
+        content: 'Please select a valid number of winners between `1-10`',
       })
     }
 
@@ -97,7 +97,7 @@ module.exports = {
     if (bonusRole) {
       if (!bonusEntries) {
         return interaction.reply({
-          content: `:x: You must specify how many bonus entries would ${bonusRole} recieve!`,
+          content: `you must specify ${bonusrole}`,
           ephemeral: true
         });
       }
@@ -115,15 +115,15 @@ module.exports = {
       if (!client_is_in_server) {
         return interaction.editReply({
           embeds: [{
-            color: "#2F3136",
+            color: "#03ffa0",
             author: {
               name: client.user.username,
               icon_url: client.user.avatarURL
             },
             title: "Server Check!",
-            url: "https://youtube.com/c/ZeroSync",
+            url: "https://discord.gg/7MpdHUuX",
             description:
-              "Woah woah woah! I see a new server! are you sure I am in that? You need to invite me there to set that as a requirement! 😳",
+              "Join the server to do the Requirment",
             timestamp: new Date(),
             footer: {
               icon_url: client.user.avatarURL,
@@ -135,10 +135,10 @@ module.exports = {
     }
 
     if (rolereq && !invite) {
-      messages.inviteToParticipate = `**React with 🎉 to participate!**\n>>> - Only members having ${rolereq} are allowed to participate in this giveaway!`
+      messages.inviteToParticipate = `**React with 🎉 to participate!**\n>>> - Only members has ${rolereq} are allowed to participate in the giveaway!`
     }
     if (rolereq && invite) {
-      messages.inviteToParticipate = `**React with 🎉 to participate!**\n>>> - Only members having ${rolereq} are allowed to participate in this giveaway!\n- Members are required to join [this server](${invite}) to participate in this giveaway!`
+      messages.inviteToParticipate = `**React with 🎉 to participate!**\n>>> - Only members has ${rolereq} are allowed to participate in this giveaway!\n- Members are required to join [this server](${invite}) to participate in the giveaway!`
     }
     if (!rolereq && invite) {
       messages.inviteToParticipate = `**React with 🎉 to participate!**\n>>> - Members are required to join [this server](${invite}) to participate in this giveaway!`
@@ -180,7 +180,7 @@ module.exports = {
         .setDescription(
           `**${bonusRole}** Has **${bonusEntries}** Extra Entries in this giveaway!`
         )
-        .setColor("#2F3136")
+        .setColor("#03ffa0")
         .setTimestamp();
       giveawayChannel.send({ embeds: [giveaway] });
     }

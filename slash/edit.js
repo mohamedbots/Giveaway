@@ -5,25 +5,25 @@ module.exports = {
     options: [
         {
             name: 'giveaway',
-            description: 'The giveaway to end (message ID)',
+            description: 'The giveaway to edit! (message ID)',
             type: 'STRING',
             required: true
         },
         {
             name: 'duration',
-            description: 'Setting time of mentioned giveaway. Eg. 1h sets the current giveaway to end after an hour!',
+            description: 'The duration for the Giveaway!',
             type: 'STRING',
             required: true
         },
         {
             name: 'winners',
-            description: 'How many winners the giveaway should have',
+            description: 'How many winners for the new Giveaway!',
             type: 'INTEGER',
             required: true
         },
         {
             name: 'prize',
-            description: 'What the prize of the giveaway should be',
+            description: 'Provide the Prize for the new Giveaway!',
             type: 'STRING',
             required: true
         }
@@ -32,9 +32,9 @@ module.exports = {
     run: async (client, interaction) => {
 
         // If the member doesn't have enough permissions
-        if (!interaction.member.permissions.has('MANAGE_MESSAGES') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
+        if (!interaction.member.permissions.has('MANAGE_CHANNELS') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
             return interaction.reply({
-                content: ':x: You need to have the manage messages permissions to start giveaways.',
+                content: "you don't have permissions",
                 ephemeral: true
             });
         }
@@ -56,13 +56,13 @@ module.exports = {
         } catch(e) {
 return interaction.editReply({
             content:
-                `No giveaway found with the given message ID: \`${gid}\``,
+                `unable to find giveaway for \`${gid}\``,
             ephemeral: true
         });
         }
         interaction.editReply({
             content:
-                `This giveaway has now been edited!`,
+                `Giveaway edited!`,
             ephemeral: true
         });
     }
